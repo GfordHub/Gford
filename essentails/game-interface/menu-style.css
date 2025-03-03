@@ -1,0 +1,74 @@
+
+* {
+    margin: 0; 
+    padding: 0;
+    background: rgb(22, 22, 22);
+}
+body {
+   position: relative;
+   border: solid 2px white;
+}
+.container1 {
+    top: 15%;
+    left: 22%;
+    padding: 30px;
+    margin-top: 1rem;
+    border-style: none  ;
+    border: solid whitesmoke 10px;
+    width: max-content;
+    position: absolute;
+    animation: game-blink 1.5s infinite linear;
+}
+ul li a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: whitesmoke;
+    text-decoration: none;
+    font-size: 3rem;
+}
+ul li {
+    list-style-type: none;
+}
+ul li:hover a{
+    border: solid whitesmoke 5px;
+    background: whitesmoke;
+    color: rgb(23, 23, 23);
+
+}
+.container1 h1 {
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    padding: 30px;
+    color: whitesmoke;
+    font-size: 6rem;
+   
+}
+.glowing_logo {
+    animation: blink-logo 1s infinite linear;
+} 
+@keyframes blink-logo{
+    0% {
+       color: whitesmoke; 
+    }
+    60% {
+        color: rgb(23,23,23);
+    }
+    100% {
+        color: whitesmoke;
+    }
+}
+@keyframes game-blink {
+    0% {
+        border: solid rgb(26, 26, 26) 10px;
+        
+    }
+    60% {
+        border: solid white 10px;
+        
+    }
+    100% {
+        border: solid rgb(23, 23, 23) 10px;
+        
+    }
+}
