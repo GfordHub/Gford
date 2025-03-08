@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Option</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body 
+        {
+            background: rgb(22, 22, 22);
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            color: whitesmoke;
+        }
+
+        h1 {
+            font-size: 10rem;
+            text-align: center;
+            margin: 5rem 0 5rem 0;
+            animation: blink 1s linear infinite;
+        }
+        @keyframes blink {
+    0% {
+       color: whitesmoke; 
+    }
+    60% {
+        color: rgb(23,23,23);
+    }
+    100% {
+        color: whitesmoke;
+    }
+        }
+        ul {
+            list-style-type: none;
+        }
+        li {
+            font-weight: 900;
+            line-height: 3rem;
+            font-size: 2rem;
+        }
+        .ctrl-wrap {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 5rem;
+        }
+       ul .click {
+            margin: 2rem;
+            transform: scale(5);
+            image-rendering: pixelated;
+        }
+    </style>
+</head>
+<body>
+     <h1>Option</h1>
+    <div class="ctrl-wrap">
+       
+        <ul>
+            <li>Move Up: W</li>
+            <li>Move Down: S</li>
+            <li>Move Left: A</li>
+            <li>Move Right: D</li>
+            <li>Shoot: Space</li>
+             <input type="checkbox" name="checked" class="click">
+        </ul>
+        <ul>
+            <li>Move Up: ↑</li>
+            <li>Move Down: ↓</li>
+            <li>Move Left: ←</li>
+            <li>Move Right: →</li>
+            <li>Shoot: Space</li>
+             <input type="checkbox" name="checked" class="click">
+        </ul>
+    </div>
+</body>
+</html>
