@@ -12,19 +12,26 @@
         <div class="container1">
             <h1 class="glowing_logo">GROUND ZERO</h1>
             <ul>
-                <li><a href="game-index.html" id="playButton" data-text="PLAY">PLAY</a></li>
+                <li><a href="Shooter.html" id="playButton" data-text="PLAY">PLAY</a></li>
                 <li><a href="option.html" data-text="OPTION">OPTION</a></li>
                 <li><a href="" data-text="LEADERBOARD">LEADERBOARD</a></li>
                 <li><a href="credit.html" data-text="CREDITS">CREDITS</a></li>
-                <li><a href="#" onclick="confirmQuit()" data-text="QUIT">QUIT</a></li>
+                l<li><a href="#" onclick="confirmQuit()" data-text="QUIT">QUIT</a></li>
             </ul>
         </div>
     </section>
-
+    
+    
     <section>
         <!-- Include the music.html file -->
         <div w3-include-html="../music.html"></div>
     </section>
+
+    <!-- Add the audio element for background music -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://eta.vgmtreasurechest.com/soundtracks/undertale-yellow-ost/hdcgmoladj/02.%20Main%20Menu%201%20%28Ruins%29.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
     <script src="../Javascript/main.js"></script>
     <script src="../Javascript/game.js"></script>
@@ -70,6 +77,12 @@
                 window.close(); // This will attempt to close the window
             }
         }
+
+        // Play background music after the window has loaded
+        window.onload = function() {
+            var backgroundMusic = document.getElementById("backgroundMusic");
+            backgroundMusic.play();
+        };
     </script>
 </body>
 </html>

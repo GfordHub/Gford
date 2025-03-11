@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Shooter</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #000; }
+        canvas { display: block; }
+        .dialogue { /* ... your existing dialogue styles ... */ }
+        .hud { /* ... your existing HUD styles ... */ }
+        body {
+            color: #ffffff;
+            font-family: "Press Start 2P", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="dialogue">
+        <div class="dialogue__content">
+            <h1>Space Shooter</h1>
+            <button>Start Game</button>
+        </div>
+    </div>
+
+    <div class="hud hud--hidden">
+        <p class="hud__score">Score: <span>0</span></p>
+    </div>
+
+    <script src="js/game.js"></script>
+</body>
+</html>

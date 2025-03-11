@@ -6,14 +6,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
     <style>
-        body 
-        {
-            background: rgb(22, 22, 22);
-            font-family: 'Press Start 2P', cursive;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            color: whitesmoke;
+body {
+    background-image: url("https://e0.pxfuel.com/wallpapers/354/833/desktop-wallpaper-animated-black-hole-interstellar-black-hole.jpg");
+    background-position: center;
+    font-family: 'Press Start 2P', cursive;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    color: whitesmoke;
         }
 
         h1 {
@@ -21,6 +21,8 @@
             text-align: center;
             margin: 15rem 0 15rem 0;
             animation: blink 1s linear infinite;
+            text-shadow: -3px -3px 0px whitesmoke, 3px 3px 0px gray;
+            text-shadow: -3px -3px 0px red, 3px 3px 0px blue;
         }
         @keyframes blink {
     0% {
@@ -39,12 +41,15 @@
             line-height: 10rem ;
             font-size: 4rem;
             padding-top: 50px;
-            padding-bottom: px
+            padding-bottom: 0px;
+            text-shadow: -3px -3px 0px whitesmoke, 3px 3px 0px gray;
+            text-shadow: -3px -3px 0px red, 3px 3px 0px blue, 3px 3px 0px;
         }
 
         ul {
             
             list-style-type: none;
+            text-shadow: -3px -3px 0px whitesmoke, 3px 3px 0px gray;
         }
 
         li {
@@ -53,10 +58,13 @@
             line-height: 10rem;
             font-size: 4rem;
             gap: 50px;
+            text-shadow: -3px -3px 0px whitesmoke, 3px 3px 0px gray;
+            text-shadow: 3px 3px 0px violet, -3px -3px 0px blue,;;
         }
         .wrapper {
             animation: credit-scroll 20s linear infinite;
-            animation-delay: 3s;
+            animation-delay: 3.5s;
+            
         }
         @keyframes credit-scroll {
             0% {
@@ -72,9 +80,20 @@
     <div class="wrapper">
     <h1>Credits</h1>
     <p>Created by:
-        <ul>
+    </style>
+</head>
+<body>
+    <audio id="backgroundMusic" loop autoplay>
+        <source src="https://pagallworld.co.in/wp-content/uploads/2023/03/Pirates-Of-The-Caribbean-Theme.mp3">
+        Your browser does not support the audio element.
+    </audio>
+    <script>
+        window.addEventListener('click', function() {
+            document.getElementById('backgroundMusic').play();
+        });
+    </script>
             <li>David Tom Arriesgado</li>
-            <li>Glenford Ancao</li>
+            <li>Ancao Glenford</li>
             <li>Cj Pesole</li>
             <li>Kevin Dave Duan</li>
             <li>Justine Viogela</li>

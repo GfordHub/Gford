@@ -1,62 +1,86 @@
 * {
-    margin: 0; 
-    padding: 0;
-    box-sizing: border-box;
-    background: rgb(22, 22, 22);
-    user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
+    margin: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+   
+
+    
+    
+
 }
 body {
    display: flex;
    justify-content: center;
    align-items: center;
-   height: 100vh;
-   border: solid 2px white;
+   height: 102vh;
+   border: auto;
    font-family: 'Press Start 2P', cursive;
    margin: 0;
-   background: black;
+    text-shadow: -3px -3px 0px whitesmoke, 3px 3px 0px gray;
+    background-image: url('https://i.pinimg.com/736x/71/26/fa/7126fa0e09b2c79bde4f7713f031f769.jpg');
+    
+    
+
+   
+
+    
 }
 .container1 {
     padding: 30px;
+    text-shadow: 4px 4px 0px gray, whitesmoke 4px 4px 0px; 
     width: max-content;
     animation: game-blink 1.5s infinite linear;
+    background-image: url('https://miro.medium.com/v2/resize:fit:1400/1*FNdv4U-fEO6G0ldi2IQUYg.gif');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+
+
 }
 ul {
     list-style-type: none;
-    padding: 0;
+    padding: 0;;
+    border: solid whitesmoke 5px;
 }
 ul li a {
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
+    text-align: center;
     color: whitesmoke;
     text-decoration: none;
     font-size: 3rem;
     font-family: 'Press Start 2P', cursive;
     padding: 10px 0;
     position: relative;
+    text-shadow: 5px 5px 0px gray, whitesmoke 5px 5px 0px;
+    
+    
+
+    
+
+
 }
 ul li a::after {
     --slice-0: inset(50% 50% 50% 50%);
     --slice-1: inset(80% -6px 0 0);
     --slice-2: inset(50% -6px 30% 0);
-    --slice-3: inset(10% -6px 85% 0);
-    --slice-4: inset(40% -6px 43% 0);
-    --slice-5: inset(80% -6px 5% 0);
-    content: attr(data-text);
-    display: block;
-    position: absolute;
-    top: 0;
+    --slice-3: inset(10% -6px 85% 0);   
+     --slice-5: inset(80% -6px 5% 0);    
+       content: attr(data-text);    
+         display: block;    
+           position: absolute;    
+             top: 0;  
+             top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(45deg, transparent 3%, whitesmoke 3%, whitesmoke 5%, gray 5%);
     text-shadow: -3px -3px 0px whitesmoke, 3px 3px 0px gray;
     clip-path: var(--slice-0);
 }
 ul li a:hover::after {
-    animation: 1s glitch;
+    animation: 1.5s glitch;
     animation-timing-function: steps(2, end);
 }
 @keyframes glitch {
@@ -72,7 +96,7 @@ ul li a:hover::after {
 
     20% {
         clip-path: var(--slice-1);
-        transform: translate(-10px, 10px);
+        transform: translate(-120px, 10px);
     }
 
     30% {
@@ -87,7 +111,7 @@ ul li a:hover::after {
 
     50% {
         clip-path: var(--slice-3);
-        transform: translate(5px, 0px);
+        transform: translate(50px, 0px);
     }
 
     60% {
@@ -120,7 +144,7 @@ ul li {
 }
 ul li:hover a {
     border: solid whitesmoke 5px;
-    background: whitesmoke;
+    background: transparent;
     color: rgb(23, 23, 23);
 }
 .container1 h1 {
@@ -184,175 +208,3 @@ canvas {
     color: white;
     font-size: 16px;
 }
-
-#loader > h1 {
-    font-family: sans-serif;
-    font-weight: bold;
-}
-
-#button2 {
-    left: 100px;
-    bottom: 30px;
-}
-
-#button3 {
-    right: 100px;
-    bottom: 30px;
-    visibility: hidden;
-}
-
-#button4 {
-    right: 10px;
-    bottom: 30px;
-}
-
-#menu {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    display: none;
-}
-
-#menuButton {
-    border: 2px solid #ff9d00;
-    border-radius: 5px;
-    display: inline-block;
-    padding: 1em 2em;
-    background-color: #000;
-    color: #ff9d00;
-    cursor: pointer;
-    font-family: 'Press Start 2P', sans-serif;
-    font-size: 1rem;
-    text-transform: uppercase;
-    transition: color .2s linear, background-color .2s linear;
-}
-
-#menuButton:focus,
-#menuButton:hover {
-    background-color: #ff9d00;
-    color: #000;
-    transition-duration: .07s;
-}
-
-#menuOptions {
-    display: none;
-}
-
-#menuOptions button {
-    border: 2px solid #ff9d00;
-    border-radius: 5px;
-    display: inline-block;
-    padding: 1em 2em;
-    background-color: #000;
-    color: #ff9d00;
-    cursor: pointer;
-    font-family: 'Press Start 2P', sans-serif;
-    font-size: 1rem;
-    text-transform: uppercase;
-    transition: color .2s linear, background-color .2s linear;
-    margin-top: 10px;
-}
-
-#menuOptions button:focus,
-#menuOptions button:hover {
-    background-color: #ff9d00;
-    color: #000;
-    transition-duration: .07s;
-}
-
-button,
-button::after {
-    padding: 16px 20px;
-    font-size: 18px;
-    background: linear-gradient(45deg, transparent 5%, #ff013c 5%);
-    border: 0;
-    color: #fff;
-    letter-spacing: 3px;
-    line-height: 1;
-    box-shadow: 6px 0px 0px #00e6f6;
-    outline: transparent;
-    position: relative;
-}
-
-button::after {
-    --slice-0: inset(50% 50% 50% 50%);
-    --slice-1: inset(80% -6px 0 0);
-    --slice-2: inset(50% -6px 30% 0);
-    --slice-3: inset(10% -6px 85% 0);
-    --slice-4: inset(40% -6px 43% 0);
-    --slice-5: inset(80% -6px 5% 0);
-    content: "HOVER ME";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, transparent 3%, #00e6f6 3%, #00e6f6 5%, #ff013c 5%);
-    text-shadow: -3px -3px 0px #f8f005, 3px 3px 0px #00e6f6;
-    clip-path: var(--slice-0);
-}
-
-button:hover::after {
-    animation: 1s glitch;
-    animation-timing-function: steps(2, end);
-}
-
-@keyframes glitch {
-    0% {
-        clip-path: var(--slice-1);
-        transform: translate(-20px, -10px);
-    }
-
-    10% {
-        clip-path: var(--slice-3);
-        transform: translate(10px, 10px);
-    }
-
-    20% {
-        clip-path: var(--slice-1);
-        transform: translate(-10px, 10px);
-    }
-
-    30% {
-        clip-path: var(--slice-3);
-        transform: translate(0px, 5px);
-    }
-
-    40% {
-        clip-path: var(--slice-2);
-        transform: translate(-5px, 0px);
-    }
-
-    50% {
-        clip-path: var(--slice-3);
-        transform: translate(5px, 0px);
-    }
-
-    60% {
-        clip-path: var(--slice-4);
-        transform: translate(5px, 10px);
-    }
-
-    70% {
-        clip-path: var(--slice-2);
-        transform: translate(-10px, 10px);
-    }
-
-    80% {
-        clip-path: var(--slice-5);
-        transform: translate(20px, -10px);
-    }
-
-    90% {
-        clip-path: var(--slice-1);
-        transform: translate(-10px, 0px);
-    }
-
-    100% {
-        clip-path: var(--slice-1);
-        transform: translate(0);
-    }
-}
-
-

@@ -1,39 +1,6 @@
-document.getElementById('playGameButton').addEventListener('click', function() {
-    document.getElementById('mainUI').style.display = 'none';
-    document.getElementById('gameCanvas').style.display = 'block';
-    document.querySelector('.dialogue').style.display = 'flex';
-    document.querySelector('.hud').style.display = 'flex';
-    document.getElementById('menu').style.display = 'block';
-    document.getElementById('backgroundMusic').play(); // Start background music
-});
-
-document.getElementById('menuButton').addEventListener('click', function() {
-    const menuOptions = document.getElementById('menuOptions');
-    menuOptions.style.display = menuOptions.style.display === 'none' ? 'block' : 'none';
-});
-
-document.getElementById('audioButton').addEventListener('click', function() {
-    const backgroundMusic = document.getElementById('backgroundMusic');
-    if (backgroundMusic.paused) {
-        backgroundMusic.play();
-    } else {
-        backgroundMusic.pause();
-    }
-});
-
-document.getElementById('resumeButton').addEventListener('click', function() {
-    alert('Resume game clicked!');
-    // Add your resume game logic here
-});
-
-document.getElementById('exitButton').addEventListener('click', function() {
-    alert('Exit game clicked!');
-    // Add your exit game logic here
-});
-
 const DEV_MODE = false;
 
-const stage = document.getElementById('gameCanvas'),
+const stage = document.createElement('canvas'),
       ctx = stage.getContext('2d'),
       dialogue = document.querySelector('.dialogue'),
       startBtn = dialogue.querySelector('button'),
@@ -63,10 +30,10 @@ function Ship(options) {
   this.y = options.y || stage.height - this.radius - 30;
   this.width = this.radius * 2;
   this.height = this.width;
-  this.color = options.color || 'neonyellow';
-  this.left = true;
+  this.color = options.color || 'red';
+  this.left = false;
   this.right = false;
-  this.speed = 20;
+  this.speed = 10;
   this.active = true;
 
   document.addEventListener('keydown', this.onKeyDown.bind(this));
@@ -308,7 +275,7 @@ function render(delta) {
     if (ship.active && ship.shooting) {
        if (laserTick === 0 || laserTick % 10 === 0) {
          let laser = new Laser({
-           color: 'neonred',
+           color: 'skyblue',
            x: ship.x + ship.radius - 3
          });
          lasers.push(laser);
@@ -356,6 +323,7 @@ function onResize() {
 startBtn.addEventListener('click', startGame);
 window.addEventListener('resize', onResize);
 
+document.body.appendChild(stage);
 onResize();
 
 // start the ship off-screen:
