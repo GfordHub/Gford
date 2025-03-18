@@ -1,0 +1,95 @@
+body {
+    font-family: 'Press Start 2P', cursive;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    color: whitesmoke;
+    text-shadow: 4px 4px 4px black;
+    background-color: black;
+    overflow: hidden;
+}
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+h1 {
+    font-size: 7rem;
+    margin: 4rem 0;
+    animation: pulse 2s infinite alternate;
+    text-shadow: -3px -3px 0px gray, 3px 3px 0px whitesmoke;
+}
+@keyframes pulse {
+    from { text-shadow: -3px -3px 5px gray, 3px 3px 5px whitesmoke; }
+    to { text-shadow: -4px -4px 8px gray, 4px 4px 8px whitesmoke; }
+}
+ul {
+    list-style: none;
+    border: 2px solid gray;
+    border-radius: 15px;
+    margin: 1.5rem auto;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.8);
+    width: 300px;
+    display: inline-block;
+    box-shadow: 0px 0px 10px gray;
+}
+li {
+    display: flex;
+    font-weight: bold;
+    line-height: 2.5rem;
+    font-size: 1.3rem;
+    color: whitesmoke;
+    text-shadow: 2px 2px 3px black;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+li:hover {
+    transform: scale(1.2);
+    color: gray;
+    text-shadow: 4px 4px 5px gray, 6px 6px 0px black;
+}
+input[type="radio"] {
+    margin-top: 1rem;
+    transform: scale(1.5);
+}
+.ctrl-wrap {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+audio {
+    margin-top: 2rem;
+}
+/* Spaceship Styling */
+/* Spaceship Styling */
+.spaceship {
+position: absolute;
+top: 50%; /* Center vertically */
+left: -15%; /* Start slightly off-screen to the left */
+width: 120px; /* Adjust size */
+animation: fly-across 30s linear infinite; /* Smooth and consistent flying motion */
+}
+
+@keyframes fly-across {
+from { left: -15%; transform: rotate(20deg); }
+to { left: 115%; transform: rotate(0deg); }
+}
+
+
+@keyframes fly-diagonally {
+from {
+bottom: -10%;
+right: -10%;
+transform: rotate(-45deg);
+}
+to {
+top: -20%;
+left: -10%;
+transform: rotate(-45deg);
+}
+}

@@ -1,118 +1,133 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Credit</title>
+    <title>Credits</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
-    <style>
-body {
-    background-image: url("https://e0.pxfuel.com/wallpapers/354/833/desktop-wallpaper-animated-black-hole-interstellar-black-hole.jpg");
-    background-position: center;
-    font-family: 'Press Start 2P', cursive;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    color: whitesmoke;
-        }
-
-        h1 {
-            font-size: 10rem;
-            text-align: center;
-            margin: 15rem 0 15rem 0;
-            animation: blink 1s linear infinite;
-            text-shadow: -3px -3px 0px whitesmoke, 3px 3px 0px gray;
-            text-shadow: -3px -3px 0px red, 3px 3px 0px blue;
-        }
-        @keyframes blink {
-    0% {
-       color: whitesmoke; 
-    }
-    60% {
-        color: rgb(23,23,23);
-    }
-    100% {
-        color: whitesmoke;
-    }
-        }
-
-        p {
-            font-weight: 900;
-            line-height: 10rem ;
-            font-size: 4rem;
-            padding-top: 50px;
-            padding-bottom: 0px;
-            text-shadow: -3px -3px 0px whitesmoke, 3px 3px 0px gray;
-            text-shadow: -3px -3px 0px red, 3px 3px 0px blue, 3px 3px 0px;
-        }
-
-        ul {
-            
-            list-style-type: none;
-            text-shadow: -3px -3px 0px whitesmoke, 3px 3px 0px gray;
-        }
-
-        li {
-            margin: 5rem 0 5rem 0;
-            font-weight: 900;
-            line-height: 10rem;
-            font-size: 4rem;
-            gap: 50px;
-            text-shadow: -3px -3px 0px whitesmoke, 3px 3px 0px gray;
-            text-shadow: 3px 3px 0px violet, -3px -3px 0px blue,;;
-        }
-        .wrapper {
-            animation: credit-scroll 20s linear infinite;
-            animation-delay: 3.5s;
-            
-        }
-        @keyframes credit-scroll {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(-100%);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="credit.css">
+   
+      
 </head>
 <body>
-    <div class="wrapper">
+    <canvas id="starCanvas"></canvas>
     <h1>Credits</h1>
-    <p>Created by:
-    </style>
-</head>
-<body>
+    <div class="wrapper">
+        <div class="scroll-content">
+            <ul>
+                <li onclick="showModal('David Tom Arriesgado', 'pictures/David Tom.jpg', 'soundDavid')">David Tom Arriesgado</li>
+                <li onclick="showModal('Ancao Glenford', 'pictures/481405037_1815271035903646_1208509565880806348_n (2).jpg', 'soundGlenford')">Ancao Glenford</li>
+                <li onclick="showModal('CJ Pesole', 'pictures/sparrow.jpg', 'soundCJ')">CJ Pesole</li>
+                <li onclick="showModal('Kevin Dave Duan', 'pictures/Kevin.jpg', 'soundKevin')">Kevin Dave Duan</li>
+                <li onclick="showModal('Justine Viogela', 'pictures/Justin.jpg', 'soundJustine')">Justine Viogela</li>
+            </ul>
+            
+            <div class="special-thanks">
+                <p>Special Thanks to:</p>
+                <p>ChatGPT (OpenAI), GitHub, Stack Overflow, W3Schools, MDN Web Docs, Codecademy,<br>
+                   FreeCodeCamp, Codepen, CSS-Tricks</p>
+                <p>&copy; 2025 Game Index. All rights reserved.</p>
+            </div>
+            <p class="thank-you">Thank You for Playing!</p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <img id="modalImage" src="" alt="Person">
+        <p id="modalText"></p>
+        <button class="modal-close" onclick="closeModal()">Close</button>
+    </div>
+    <img src="pictures/sprite.png" alt="Spaceship" class="spaceship">
+
+
     <audio id="backgroundMusic" loop autoplay>
-        <source src="https://pagallworld.co.in/wp-content/uploads/2023/03/Pirates-Of-The-Caribbean-Theme.mp3">
+        <source src="https://pagallworld.co.in/wp-content/uploads/2023/03/Pirates-Of-The-Caribbean-Theme.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
-    <script>
-        window.addEventListener('click', function() {
-            document.getElementById('backgroundMusic').play();
-        });
-    </script>
-            <li>David Tom Arriesgado</li>
-            <li>Ancao Glenford</li>
-            <li>Cj Pesole</li>
-            <li>Kevin Dave Duan</li>
-            <li>Justine Viogela</li>
-        </ul>
-    </p>
-    <p>Special Thanks to: <br> 
-       <br>
-        ChatGpt(OpenAi) <br>
-        GitHub <br>
-        Stack Overflow <br>
-        W3Schools <br>
-        MDN Web Docs <br>
-        Codecademy <br>
-        FreeCodeCamp <br>
-        Codepen <br>
-        CSS-Tricks
-    </p>
-    <p>&copy; 2025 Game Index. All rights reserved.</p>
 
-    </div>
+    <audio id="soundDavid">
+        <source src="musics/saba-oi-101soundboards.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundGlenford">
+        <source src="musics/bisrock-gikomut-komu-101soundboards.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundCJ">
+        <source src="musics/prutas-101soundboards.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundKevin">
+        <source src="musics/hoy-kawatan-101soundboards.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="soundJustine">
+        <source src="musics/low-butete-made-with-Voicemod.mp3" type="audio/mpeg">
+    </audio>
+    
+    
+
+    <script>
+        // Function to Show Modal with Dynamic Content
+        function showModal(name, imageUrl, soundId) {
+    const modal = document.getElementById('modal');
+    const modalImage = document.getElementById('modalImage');
+    const modalText = document.getElementById('modalText');
+    const sound = document.getElementById(soundId);
+    // Lower the background music volume
+const backgroundMusic = document.getElementById('backgroundMusic');
+backgroundMusic.volume = 0.3; // Set volume to 30% (range is 0.0 to 1.0)
+
+
+    modalImage.src = imageUrl; // Set the image source
+    modalText.innerText = name; // Set the text
+    modal.style.display = 'block'; // Show the modal
+    
+    // Play the specific sound
+    sound.currentTime = 0; // Reset to the start
+    sound.play();
+}
+
+
+        // Function to Close Modal
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.style.display = 'none'; // Hide the modal
+        }
+
+        // Shooting Stars Animation
+        const canvas = document.getElementById('starCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let stars = [];
+        for (let i = 0; i < 50; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: 2 + Math.random(),
+                vy: 2 + Math.random(),
+            });
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, 2, 0, Math.PI * 2);
+                ctx.fillStyle = 'whitesmoke';
+                ctx.fill();
+                ctx.closePath();
+
+                star.x += star.vx;
+                star.y += star.vy;
+
+                if (star.x > canvas.width || star.y > canvas.height) {
+                    star.x = Math.random() * canvas.width;
+                    star.y = -10;
+                }
+            });
+            requestAnimationFrame(drawStars);
+        }
+        drawStars();
+    </script>
 </body>
 </html>

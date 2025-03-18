@@ -3,41 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="menu-style.css">
+    <link rel="stylesheet" href="index.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+   
     <title>GROUND ZERO</title>
 </head>
 <body>
+    <canvas id="backgroundCanvas"></canvas> <!-- New canvas for animated background -->
+
     <section>
         <div class="container1">
             <h1 class="glowing_logo">GROUND ZERO</h1>
             <ul>
                 <li><a href="Shooter.html" id="playButton" data-text="PLAY">PLAY</a></li>
                 <li><a href="option.html" data-text="OPTION">OPTION</a></li>
-                <li><a href="" data-text="LEADERBOARD">LEADERBOARD</a></li>
+                <li><a href="Leaderboard.html" data-text="LEADERBOARD">LEADERBOARD</a></li>
                 <li><a href="credit.html" data-text="CREDITS">CREDITS</a></li>
-                l<li><a href="#" onclick="confirmQuit()" data-text="QUIT">QUIT</a></li>
+                <li><a href="#" onclick="confirmQuit()" data-text="QUIT">QUIT</a></li>
             </ul>
         </div>
     </section>
-    
-    
-    <section>
-        <!-- Include the music.html file -->
-        <div w3-include-html="../music.html"></div>
-    </section>
-
-    <!-- Add the audio element for background music -->
+ 
     <audio id="backgroundMusic" loop>
         <source src="https://eta.vgmtreasurechest.com/soundtracks/undertale-yellow-ost/hdcgmoladj/02.%20Main%20Menu%201%20%28Ruins%29.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
-    <script src="../Javascript/main.js"></script>
-    <script src="../Javascript/game.js"></script>
-    <script src="../Javascript/music.js"></script>
+    <script src="script.js"></script> <!-- JavaScript for animation -->
+</body>
+</html>
+
     <script>
-        // Function to include HTML files
+       
         function includeHTML() {
             var z, i, elmnt, file, xhttp;
             z = document.getElementsByTagName("*");
@@ -67,18 +65,21 @@
                 }
             }
         }
-        includeHTML();
-        console.log("music.js script loaded");
-
-        // Function to confirm quit
+   
         function confirmQuit() {
-            var result = confirm("Are you sure you want to quit?");
-            if (result) {
-                window.close(); // This will attempt to close the window
-            }
-        }
+  
+    const userConfirmed = confirm("Are you sure you want to quit?");
+    if (userConfirmed) {
+     
+        window.close(); 
 
-        // Play background music after the window has loaded
+      
+    }
+}
+
+
+
+     
         window.onload = function() {
             var backgroundMusic = document.getElementById("backgroundMusic");
             backgroundMusic.play();

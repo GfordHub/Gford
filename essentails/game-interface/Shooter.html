@@ -3,33 +3,457 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Shooter</title>
-    <style>
-        body { margin: 0; overflow: hidden; background: #000; }
-        canvas { display: block; }
-        .dialogue { /* ... your existing dialogue styles ... */ }
-        .hud { /* ... your existing HUD styles ... */ }
-        body {
-            color: #ffffff;
-            font-family: "Press Start 2P", sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            background: #000;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Shooter.css">
+    <script src="Shooter.js"></script>
+    <title>Shooter Game</title>
+   
 </head>
 <body>
-    <div class="dialogue">
-        <div class="dialogue__content">
-            <h1>Space Shooter</h1>
-            <button>Start Game</button>
+    <canvas id="gameCanvas"></canvas>
+    <div class="button-container" id="buttonContainer">
+        <button class="retry-button" id="retryButton" onclick="restartGame()">Retry</button>
+        <button class="menu-button" id="menuButton" onclick="goToMenu()">Menu</button>
+    </div>
+    <button class="pause-button" id="pauseButton" onclick="togglePause()">||</button>
+    <div class="options-menu" id="optionsMenu">
+        <h2>Game Paused</h2>
+        
+        <div>
+            <label for="audioSlider">Audio Volume</label>
+            <input type="range" id="audioSlider" min="0" max="100" value="50" oninput="adjustAudio(this.value)">
         </div>
+        
+        <div>
+            <label>Control Scheme</label>
+            <label for="wasdControls">WASD Controls</label>
+            <input type="radio" id="wasdControls" name="controlScheme" value="wasd">
+            <label for="arrowControls">Arrow Keys</label>
+            <input type="radio" id="arrowControls" name="controlScheme" value="arrows">
+        </div>
+        
+        <button onclick="togglePause()">Resume Game</button>
+        <button onclick="goToMenu()">Exit to Menu</button>
     </div>
+    
+    <audio id="backgroundMusic" src="musics/246940-9197049f-e352-4a71-bdea-9303e664c54d (1).mp3"></audio>
+    <audio id="shootSound" src="musics/vintage-laser_100bpm_C_minor.wav"></audio>
+    <audio id="explosionSound" src="musics/zapsplat_multimedia_game_sound_8_bit_bomb_or_explosion_fast_arcade_113373.mp3"></audio>
+    <audio id="deathSound" src="musics/game-over-arcade-6435.mp3"></audio>
 
-    <div class="hud hud--hidden">
-        <p class="hud__score">Score: <span>0</span></p>
-    </div>
+    <script>
+        var canvas = document.getElementById('gameCanvas');
+        var gc = canvas.getContext('2d');
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+        
+        
 
-    <script src="js/game.js"></script>
+        var stars = [];
+        var circles = [];
+        var lineStars = [];
+        var isPaused = false;
+        var controlScheme = localStorage.getItem('controlScheme') || 'wasd';
+
+        var backgroundMusic = document.getElementById('backgroundMusic');
+        var shootSound = document.getElementById('shootSound');
+        var explosionSound = document.getElementById('explosionSound');
+        
+        backgroundMusic.volume = 0.5;
+        backgroundMusic.play();
+
+        for (var i = 0; i < 500; i++) {
+            stars.push({x: Math.random() * width, y: Math.random() * height, radius: Math.random() * 2});
+        }
+
+        for (var i = 0; i < 100; i++) {
+            lineStars.push({x: Math.random() * width, y: Math.random() * height, lx: 0, ly: 0});
+        }
+
+        for (var i = 0; i < 200; i++) {
+            circles.push({x: Math.random() * width, y: Math.random() * height, radius: 300, color: "rgba(0, 255, 0, 0.01)"});
+            circles.push({x: Math.random() * width, y: Math.random() * height, radius: 300, color: "rgba(0, 0, 255, 0.01)"});
+            if (!(i % 3))
+                circles.push({x: Math.random() * width, y: Math.random() * height, radius: 300, color: "rgba(200, 255, 0, 0.01)"});
+        }
+
+        var canvas2 = document.createElement("canvas");
+        canvas2.width = width;
+        canvas2.height = height;
+        var ctx2 = canvas2.getContext("2d");
+        ctx2.fillStyle = "rgb(20, 20, 20)";
+        ctx2.fillRect(0, 0, canvas2.width, canvas2.height);
+       // Set blending mode for drawing the circles
+ctx2.globalCompositeOperation = "lighter";
+
+for (var i = 0; i < circles.length; i++) {
+    var c = circles[i];
+    ctx2.beginPath();
+    ctx2.arc(c.x, c.y, c.radius, 0, Math.PI * 2);
+    // Change the color to black with a low alpha value for a subtle effect
+    ctx2.fillStyle = "rgba(0, 0, 0, 0.01)";
+    ctx2.fill();
+}
+
+        var img = new Image();
+        img.src = canvas2.toDataURL();
+
+        var player = {x: 150, y: height / 2, bullets: [], isDead: false, score: 0};
+        var deathFade = 0;
+
+        var asteroids = [];
+        
+        
+  
+
+        setInterval(function() {
+            if (!isPaused) {
+                asteroids.push(new Asteroid(width + 100, Math.random() * height));
+            }
+        }, 1000);
+        let isGameOver = false;
+
+
+
+        function loop() {
+            if (!isPaused) {
+                gc.fillStyle = "rgb(20, 20, 20)";
+                gc.fillRect(0, 0, width, height);
+
+                gc.drawImage(img, 0, 0);
+
+                for (var i = 0; i < stars.length; i++) {
+                    var s = stars[i];
+                    gc.fillStyle = "white";
+                    gc.fillRect(s.x, s.y, s.radius * 1.5, s.radius * 1.5);
+
+                    s.x -= s.radius / 2;
+
+                    if (s.x > width) s.x = 0;
+                    if (s.x < 0) s.x = width;
+                    if (s.y > height) s.y = 0;
+                    if (s.y < 0) s.y = height;
+                }
+
+                for (var i = 0; i < lineStars.length; i++) {
+                    var s = lineStars[i];
+                    s.x -= 20;
+
+                    gc.strokeStyle = "white";
+                    gc.lineWidth = 0.5;
+                    gc.beginPath();
+                    gc.moveTo(s.x, s.y);
+                    gc.lineTo(s.lx, s.ly);
+                    gc.stroke();
+
+                    if (s.x > width) s.x = 0;
+                    if (s.x < 0) s.x = width;
+                    if (s.y > height) s.y = 0;
+                    if (s.y < 0) s.y = height;
+
+                    s.lx = s.x;
+                    s.ly = s.y;
+                }
+
+                gc.fillStyle = "black";
+                gc.beginPath();
+                gc.ellipse(player.x, player.y + 5, 50, 25, 0, 0, Math.PI * 2);
+                gc.fill();
+
+                gc.fillStyle = "yellow";
+                gc.beginPath();
+                gc.ellipse(player.x, player.y, 60, 20, 0, 0, Math.PI * 2);
+                gc.fill();
+
+                gc.fillStyle = "black";
+                gc.beginPath();
+                gc.ellipse(player.x, player.y, 20, 5, 0, 0, Math.PI * 2);
+                gc.fill();
+
+                gc.beginPath();
+                gc.arc(player.x, player.y, 25, Math.PI, Math.PI * 2);
+                gc.fill();
+
+                for (var i = 0; i < player.bullets.length; i++) player.bullets[i].run();
+                for (var i = 4; i < asteroids.length; i++) asteroids[i].run();
+
+                      
+    
+if (controlScheme === 'wasd') {
+    if (getKey(87)) // W key
+        player.y -= 10;
+    if (getKey(83)) // S key
+        player.y += 10;
+    if (getKey(65)) // A key
+        player.x -= 10;
+    if (getKey(68)) // D key
+        player.x += 10;
+} else {
+    if (getKey(38)) // Up arrow
+        player.y -= 10;
+    if (getKey(40)) // Down arrow
+        player.y += 10;
+    if (getKey(37)) // Left arrow
+        player.x -= 10;
+    if (getKey(39)) // Right arrow
+        player.x += 10;
+}
+
+// Ensure the player stays within the canvas boundaries
+player.x = Math.min(width, Math.max(0, player.x));
+player.y = Math.min(height, Math.max(0, player.y));
+
+
+
+
+                gc.fillStyle = "white";
+                gc.font = "30px 'Press Start 2P'";
+                gc.textAlign = "right";
+                gc.fillText("SCORE: " + player.score, width - 20, 50);
+
+                if (player.isDead) {
+    // Ensure all music stops
+    if (!backgroundMusic.paused) { // Check if the music is actually playing
+        backgroundMusic.pause();
+        backgroundMusic.currentTime = 0; // Reset music to the beginning
+    }
+    if (!shootSound.paused) { // Stop shoot sound if it's still playing
+        shootSound.pause();
+        shootSound.currentTime = 0;
+    }
+    if (!explosionSound.paused) { // Stop explosion sound if it's still playing
+        explosionSound.pause();
+        explosionSound.currentTime = 0;
+    }
+
+    // Display the "Game Over" screen
+    gc.fillStyle = "rgba(0, 0, 10," + deathFade + ")";
+    gc.fillRect(0, 0, width, height);
+    gc.fillStyle = "white";
+    gc.textAlign = "center";
+    gc.font = width * 0.1 + "px 'Press Start 2P'";
+    gc.fillText("GAME OVER", width / 2, height / 2);
+    gc.font = width * 0.05 + "px 'Press Start 2P'";
+    gc.fillText("Score: " + player.score, width / 2, height / 2 + width * 0.1);
+
+
+
+
+                    deathFade += 0.01;
+
+                    if (deathFade >= 1) {
+                        document.getElementById('buttonContainer').style.display = 'block';
+                    }
+                } else  {
+                    player.score += 1;
+                }
+            }
+
+            requestAnimationFrame(loop);
+        }
+
+   
+
+        function Bullet(x, y, vx, vy) {
+            this.x = x;
+            this.y = y;
+            this.vx = vx;
+            this.vy = vy;
+
+            this.run = function() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                gc.fillStyle = "yellow";
+                gc.strokeStyle = "red";
+                gc.beginPath();
+                gc.fillRect(this.x, this.y - 2, 40, 5);
+                gc.fill();
+                gc.stroke();
+
+                if (this.x > width)
+                    player.bullets.splice(player.bullets.indexOf(this), 1);
+
+                for (var i = 0; i < asteroids.length; i++) {
+                    var a = asteroids[i];
+                    if (getDistance(this.x, this.y, a.x, a.y) < a.radius) {
+                        a.health--;
+                        player.bullets.splice(player.bullets.indexOf(this), 1);
+                        explosionSound.play();
+                    }
+                }
+            }
+        }
+
+        
+
+        function Asteroid(x, y) {
+            this.x = x;
+            this.y = y;
+            this.radius = Math.random() * 40 + 30;
+            this.health = 2;
+            this.rotation = 5;
+
+            this.points = [];
+
+            for (var i = 0; i < Math.PI * 2; i += 0.5) {
+                var x = Math.cos(i) * this.radius * (1.2 - Math.random() * 0.4);
+                var y = Math.sin(i) * this.radius * (1.2 - Math.random() * 0.5);
+                this.points.push({x, y});
+            }
+
+            this.run = function() {
+                this.x -= 4;
+                this.rotation += 0.07   ;
+
+                gc.save();
+                gc.translate(this.x, this.y);
+                gc.rotate(this.rotation);
+                gc.beginPath();
+                for (var i = 0; i < this.points.length; i++) {
+                    var p = this.points[i];
+                    gc.lineTo(p.x, p.y);
+                }
+                gc.closePath();
+                gc.fillStyle = "rgb(120,92,92)";
+                gc.strokeStyle = "black";
+                gc.fill();
+                gc.stroke();
+                gc.restore();
+
+                if (this.health <= 0){
+                    asteroids.splice(asteroids.indexOf(this), 1);
+                }
+
+                if (this.x < 0) {
+                    player.isDead = true;
+                }
+            }
+        }
+        var keys = {};
+var isShooting = false; // Add a flag to track the shooting state
+
+window.addEventListener('keydown', function (e) {
+    if (e.keyCode === 32 && !isShooting) { 
+        shootBullet();
+        shootSound.play();
+    }
+     
+});
+
+    
+
+window.addEventListener('keydup', function (e) {
+    if (e.keyCode === 32) {
+        isShooting = false;
+    }
+});
+
+    
+
+// Function to shoot a bullet
+function shootBullet() {
+    if (!player.isDead) {
+        player.bullets.push(new Bullet(player.x + 60, player.y, 10, 0));
+    };
+}
+
+
+        function getDistance(x1, y1, x2, y2) {
+            var dx = x2 - x1;
+            var dy = y2 - y1;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        function getKey(keyCode) {
+            return keys[keyCode];
+        }
+
+        var keys = {};
+        window.addEventListener('keydown', function(e) {
+            keys[e.keyCode] = true;
+        });
+        window.addEventListener('keyup', function(e) {
+            keys[e.keyCode] = false;
+        });
+
+        function restartGame() {
+            player = {x: 150, y: height / 2, bullets: [], isDead: false, score: 0};
+            deathFade = 0;
+            asteroids = [];
+            document.getElementById('buttonContainer').style.display = 'none';
+        }
+
+        function goToMenu() {
+            window.location.href = 'index.html'; 
+        }
+
+        function togglePause() {
+            isPaused = !isPaused;
+            document.getElementById('optionsMenu').style.display = isPaused ? 'block' : 'none';
+            if (isPaused) {
+                backgroundMusic.pause();
+            } else {
+                backgroundMusic.play();
+            }
+        }
+
+        function adjustAudio(value) {
+            var volume = value / 100;
+            backgroundMusic.volume = volume;
+            shootSound.volume = volume;
+            explosionSound.volume = volume;
+        }
+        
+
+        document.querySelectorAll('input[name="controlScheme"]').forEach((elem) => {
+            elem.addEventListener('change', function(event) {
+                controlScheme = event.target.value;
+                localStorage.setItem('controlScheme', controlScheme);
+            });
+        });
+        // Get the player name from localStorage
+const playerName = localStorage.getItem("playerName");
+
+
+// Example: When the game ends, save the player's score using the retrieved name
+function gameOver(finalScore) {
+  fetch("http://localhost:5500/save-score", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ player_name: playerName, score: finalScore }),
+  })
+    .then((response) => response.json())
+    .then((data) => console.log("Score saved:", data.message))
+    .catch((err) => console.error("Error saving score:", err));
+}
+function gameOver(finalScore) {
+    const playerName = localStorage.getItem("playerName") || "Anonymous";
+
+    fetch("http://localhost:5500/save-score", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ player_name: playerName, score: finalScore })
+    })
+    .then(response => response.json())
+    .then(data => console.log("Score saved:", data.message))
+    .catch(err => console.error("Error saving score:", err));
+}
+
+
+
+
+
+        // Set the initial control scheme based on local storage
+        document.querySelector(`input[value="${controlScheme}"]`).checked = true;
+
+        loop();
+    </script>
 </body>
 </html>
