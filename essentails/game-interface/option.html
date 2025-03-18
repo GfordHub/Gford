@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5,81 +6,217 @@
     <title>Option</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        body 
-        {
-            background: rgb(22, 22, 22);
+        body {
             font-family: 'Press Start 2P', cursive;
             text-align: center;
             margin: 0;
             padding: 0;
             color: whitesmoke;
+            text-shadow: 4px 4px 4px black;
+            background-color: black;
+            overflow: hidden;
         }
-
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
         h1 {
-            font-size: 10rem;
-            text-align: center;
-            margin: 5rem 0 5rem 0;
-            animation: blink 1s linear infinite;
+            font-size: 7rem;
+            margin: 4rem 0;
+            animation: pulse 2s infinite alternate;
+            text-shadow: -3px -3px 0px gray, 3px 3px 0px whitesmoke;
         }
-        @keyframes blink {
-    0% {
-       color: whitesmoke; 
-    }
-    60% {
-        color: rgb(23,23,23);
-    }
-    100% {
-        color: whitesmoke;
-    }
+        @keyframes pulse {
+            from { text-shadow: -3px -3px 5px gray, 3px 3px 5px whitesmoke; }
+            to { text-shadow: -4px -4px 8px gray, 4px 4px 8px whitesmoke; }
         }
         ul {
-            list-style-type: none;
+            list-style: none;
+            border: 2px solid gray;
+            border-radius: 15px;
+            margin: 1.5rem auto;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            width: 300px;
+            display: inline-block;
+            box-shadow: 0px 0px 10px gray;
         }
         li {
-            font-weight: 900;
-            line-height: 3rem;
-            font-size: 2rem;
+            display: flex;
+            font-weight: bold;
+            line-height: 2.5rem;
+            font-size: 1.3rem;
+            color: whitesmoke;
+            text-shadow: 2px 2px 3px black;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        li:hover {
+            transform: scale(1.2);
+            color: gray;
+            text-shadow: 4px 4px 5px gray, 6px 6px 0px black;
+        }
+        input[type="radio"] {
+            margin-top: 1rem;
+            transform: scale(1.5);
         }
         .ctrl-wrap {
             display: flex;
-            justify-content: space-around;
-            margin-top: 5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
         }
-       ul .click {
-            margin: 2rem;
-            transform: scale(5);
-            image-rendering: pixelated;
+        audio {
+            margin-top: 2rem;
         }
+        /* Spaceship Styling */
+       /* Spaceship Styling */
+       .spaceship {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: -15%; /* Start slightly off-screen to the left */
+    width: 120px; /* Adjust size */
+    animation: fly-across 30s linear infinite; /* Smooth and consistent flying motion */
+}
+
+@keyframes fly-across {
+    from { left: -15%; transform: rotate(20deg); }
+    to { left: 115%; transform: rotate(0deg); }
+}
+
+
+@keyframes fly-diagonally {
+    from {
+        bottom: -10%;
+        right: -10%;
+        transform: rotate(-45deg);
+    }
+    to {
+        top: -20%;
+        left: -10%;
+        transform: rotate(-45deg);
+    }
+}
+
+      
+        
     </style>
 </head>
 <body>
-     <h1>Option</h1>
+    <canvas id="backgroundCanvas"></canvas>
+    <h1>Option</h1>
     <div class="ctrl-wrap">
-       
         <ul>
             <li>Move Up: W</li>
             <li>Move Down: S</li>
             <li>Move Left: A</li>
             <li>Move Right: D</li>
             <li>Shoot: Space</li>
-             <input type="checkbox" name="checked" class="click">
+            <input type="radio" name="controlScheme" value="wasd" checked>
         </ul>
         <ul>
-            <li>Move Up: ↑</li>
-            <li>Move Down: ↓</li>
-            <li>Move Left: ←</li>
-            <li>Move Right: →</li>
+            <li>Move Up: ⇧</li>
+            <li>Move Down: ⇩</li>
+            <li>Move Left: ⇦</li>
+            <li>Move Right: ⇨</li>
             <li>Shoot: Space</li>
-             <input type="checkbox" name="checked" class="click">
+            <input type="radio" name="controlScheme" value="arrows">
         </ul>
-        <audio id="backgroundMusic" loop autoplay>
-            <source src="https://pagallworld.co.in/wp-content/uploads/2023/03/Pirates-Of-The-Caribbean-Theme.mp3">
-            Your browser does not support the audio element.
-        </audio>
-        <script>
-            window.addEventListener('click', function() {
-                document.getElementById('backgroundMusic').play();
+    </div>
+    <audio id="backgroundMusic" loop autoplay>
+        <source src="https://pagallworld.co.in/wp-content/uploads/2023/03/Pirates-Of-The-Caribbean-Theme.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="spaceshipSound">
+        <source src="1stop-it-audio-clip-100732.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+
+   
+
+<img src="sprite.png" alt="Spaceship" class="spaceship">
+<img src="sprite.png" alt="Spaceship" class="spaceship" onclick="playSound()">
+
+
+
+    <script>
+        const canvas = document.getElementById('backgroundCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+
+        // Create Particles
+        function createParticles() {
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 2 + 1,
+                    color: `rgba(255, 255, 255, ${Math.random()})`,
+                    speedX: (Math.random() - 0.5) * 2,
+                    speedY: (Math.random() - 0.5) * 2,
+                });
+            }
+        }
+
+        // Draw Particles
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((particle) => {
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                ctx.fillStyle = particle.color;
+                ctx.fill();
+                ctx.closePath();
+
+                // Move Particles
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+
+                // Bounce Particles Off Edges
+                if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1;
+                if (particle.y < 0 || particle.y > canvas.height) particle.speedY *= -1;
             });
-        </script>
+
+            requestAnimationFrame(drawParticles);
+        }
+
+        createParticles();
+        drawParticles();
+
+        // Audio Playback on Interaction
+        window.addEventListener('click', function() {
+            document.getElementById('backgroundMusic').play();
+        });
+
+        // Save the selected control scheme to local storage
+        document.querySelectorAll('input[name="controlScheme"]').forEach((elem) => {
+            elem.addEventListener('change', function(event) {
+                localStorage.setItem('controlScheme', event.target.value);
+            });
+        });
+
+        // Load the saved control scheme on page load
+        window.addEventListener('load', function() {
+            const savedScheme = localStorage.getItem('controlScheme');
+            if (savedScheme) {
+                document.querySelector(`input[value="${savedScheme}"]`).checked = true;
+            }
+        });
+
+        function playSound() {
+    const sound = document.getElementById('spaceshipSound');
+    sound.currentTime = 0; // Reset to the beginning
+    sound.play();
+}
+
+    </script>
 </body>
 </html>

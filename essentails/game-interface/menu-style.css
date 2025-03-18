@@ -40,8 +40,8 @@ body {
 }
 ul {
     list-style-type: none;
-    padding: 0;;
-    border: solid whitesmoke 5px;
+    padding: 0;
+    overflow: hidden;
 }
 ul li a {
     display: block;
@@ -55,13 +55,18 @@ ul li a {
     padding: 10px 0;
     position: relative;
     text-shadow: 5px 5px 0px gray, whitesmoke 5px 5px 0px;
-    
-    
-
-    
-
-
+    inline-size: auto;
+    transition: transform 0.3s ease, text-shadow 0.3s ease, color 0.3s ease;
 }
+
+ul li a:hover {
+    background: rgba(245, 245, 245, 0.954);
+    backdrop-filter: blur(10px);
+    transform: scale(1.2); /* Makes the button grow on hover */
+    text-shadow: 6px 6px 0px gray, whitesmoke 6px 6px 0px;
+    color: gray; /* Changes the color to gray on hover */
+}
+
 ul li a::after {
     --slice-0: inset(50% 50% 50% 50%);
     --slice-1: inset(80% -6px 0 0);
@@ -151,7 +156,7 @@ ul li:hover a {
     font-family: 'Press Start 2P', cursive;
     text-align: center;
     padding: 30px;
-    color: whitesmoke;
+    color: whitesmoke, darkgray;
     font-size: 6rem;
 }
 .glowing_logo {
@@ -185,7 +190,6 @@ canvas {
     left: 0;
     top: 0;
     z-index: 0;
-    border: 1px solid;
 }
 
 #loader {
